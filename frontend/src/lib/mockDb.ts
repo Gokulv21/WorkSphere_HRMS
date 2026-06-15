@@ -34,8 +34,8 @@ const SEED_DATA = {
   audit_logs: []
 };
 
-// Use a new prefix v3 to force a clean database reset for the user
-const DB_PREFIX = "worksphere_db_v3_";
+// Use a new prefix v4 to force a clean database reset and clear orphaned users
+const DB_PREFIX = "worksphere_db_v4_";
 
 // Initialize localStorage if empty
 Object.entries(SEED_DATA).forEach(([table, data]) => {
