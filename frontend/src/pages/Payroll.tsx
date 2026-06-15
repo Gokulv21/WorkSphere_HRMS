@@ -185,6 +185,7 @@ export default function Payroll() {
           )}
 
           <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
+          <div className="overflow-x-auto w-full">
             <table className="w-full text-left text-sm text-slate-600 dark:text-slate-400">
               <thead className="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
@@ -235,6 +236,7 @@ export default function Payroll() {
                 )}
               </tbody>
             </table>
+          </div>
           </div>
         </div>
 
@@ -294,6 +296,7 @@ export default function Payroll() {
           )}
 
           <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
+          <div className="overflow-x-auto w-full">
             <table className="w-full text-left text-sm text-slate-600 dark:text-slate-400">
               <thead className="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
@@ -334,6 +337,7 @@ export default function Payroll() {
                 )}
               </tbody>
             </table>
+          </div>
           </div>
         </div>
       </div>

@@ -294,7 +294,8 @@ export default function Attendance() {
 
       {/* Table Section */}
       <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors duration-300">
-        <table className="w-full text-left text-sm text-slate-600 dark:text-slate-400">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left text-sm text-slate-600 dark:text-slate-400">
           <thead className="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider">
             <tr>
               {isManager && <th className="px-6 py-4">Employee</th>}
@@ -366,7 +367,8 @@ export default function Attendance() {
               ))
             )}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   );

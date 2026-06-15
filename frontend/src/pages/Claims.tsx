@@ -165,7 +165,8 @@ export default function Claims() {
       )}
 
       <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
-        <table className="w-full text-left text-sm text-slate-600 dark:text-slate-400">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left text-sm text-slate-600 dark:text-slate-400">
           <thead className="bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
             <tr>
               {isManager && <th className="px-6 py-4">Employee</th>}
@@ -245,7 +246,8 @@ export default function Claims() {
               ))
             )}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   );

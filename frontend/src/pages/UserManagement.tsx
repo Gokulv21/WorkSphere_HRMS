@@ -170,7 +170,7 @@ export default function UserManagement() {
             {errorMsg && <div className="p-3 bg-red-100 dark:bg-red-950/30 text-red-700 dark:text-red-400 rounded-xl text-sm font-semibold">{errorMsg}</div>}
             {successMsg && <div className="p-3 bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400 rounded-xl text-sm font-semibold">{successMsg}</div>}
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-350">First Name</label>
                 <input
@@ -273,7 +273,7 @@ export default function UserManagement() {
               employees.map((employee: any) => (
                 <div
                   key={employee.id}
-                  className="flex items-center justify-between p-4 transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/30"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/30 gap-4 sm:gap-0"
                 >
                   <div className="flex items-center gap-4">
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-950/50 text-lg font-bold text-indigo-600 dark:text-indigo-400">
@@ -290,7 +290,7 @@ export default function UserManagement() {
                       <div className="text-sm text-slate-500 dark:text-slate-400">{employee.workEmail}</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 border-slate-100 dark:border-slate-800 pt-3 sm:pt-0">
                     <div className="text-right">
                       <div className="flex items-center justify-end gap-1 text-sm font-semibold text-slate-700 dark:text-slate-350">
                         <Briefcase className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />

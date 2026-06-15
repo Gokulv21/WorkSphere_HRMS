@@ -35,11 +35,11 @@ export default function DashboardHome() {
   return (
     <div className="max-w-5xl mx-auto font-sans animate-fade-in space-y-8">
       {/* Dynamic Welcome Banner */}
-      <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white rounded-3xl p-8 shadow-xl shadow-indigo-600/10 dark:shadow-none relative overflow-hidden">
+      <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-indigo-600/10 dark:shadow-none relative overflow-hidden">
         {/* Decorative background shape */}
         <div className="absolute right-[-10%] top-[-50%] w-72 h-72 bg-white/10 rounded-full blur-2xl pointer-events-none" />
         <div className="relative z-10 space-y-2">
-          <h2 className="text-3xl font-extrabold tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
             {getGreeting()}, Admin!
           </h2>
           <p className="text-indigo-100 font-medium text-sm max-w-xl">
