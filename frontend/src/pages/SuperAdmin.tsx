@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../lib/auth";
-import { Building2, LogOut, Plus, Users } from "lucide-react";
+import { Building2, LogOut, Plus, Users, Trash2, Ban, CheckCircle } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { activeSupabase } from "../integrations/supabase/client";
 
@@ -83,7 +83,7 @@ export default function SuperAdmin() {
 
       // Create Tenant
       const slug = companyName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      const { data: tenant, error: tenantErr } = await activeSupabase
+      const { data: tenantData, error: tenantErr } = await activeSupabase
         .from("tenants")
         .insert({
           legalName: companyName,
@@ -96,25 +96,25 @@ export default function SuperAdmin() {
           panNumber,
           companyAddress,
           companyType
-        })
-        .select()
-        .single();
+        });
+        
+      const tenant = Array.isArray(tenantData) ? tenantData[0] : tenantData;
 
       if (tenantErr || !tenant) {
         throw new Error(tenantErr?.message || "Failed to create tenant");
       }
 
       // Create Owner User
-      const { data: user, error: userErr } = await activeSupabase
+      const { data: userData, error: userErr } = await activeSupabase
         .from("users")
         .insert({
           email: ownerEmail,
           password: ownerPassword, // LocalStorage mock accepts plain password, Supabase Auth hashes it
           role: "COMPANY_OWNER",
           tenantId: tenant.id
-        })
-        .select()
-        .single();
+        });
+        
+      const user = Array.isArray(userData) ? userData[0] : userData;
 
       if (userErr || !user) {
         // Rollback tenant in case of user creation failure
@@ -158,6 +158,24 @@ export default function SuperAdmin() {
     onError: (err: any) => {
       setErrorMsg(err.message || "Failed to create company.");
     }
+  });
+
+  // Toggle Status Mutation
+  const toggleStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string, status: string }) => {
+      const { error } = await activeSupabase.from("tenants").update({ status }).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["super-admin-tenants"] })
+  });
+
+  // Delete Mutation
+  const deleteCompanyMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await activeSupabase.from("tenants").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["super-admin-tenants"] })
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -296,7 +314,10 @@ export default function SuperAdmin() {
                 <div key={tenant.id} className="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md transition-all duration-300 flex flex-col justify-between">
                   <div>
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-bold text-lg text-slate-900 dark:text-white">{tenant.displayName}</h3>
+                      <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
+                        {tenant.displayName}
+                        {tenant.status === "BLOCKED" && <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-md bg-rose-100 text-rose-600">BLOCKED</span>}
+                      </h3>
                       <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500">{tenant.companyType?.replace("_", " ")}</span>
                     </div>
                     <div className="text-sm text-slate-500 dark:text-slate-400 mb-4 flex flex-col gap-1.5">
@@ -310,6 +331,26 @@ export default function SuperAdmin() {
                     <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-3 py-1.5 rounded-lg text-xs font-semibold border border-indigo-100 dark:border-indigo-900/50">
                       <Users className="w-3.5 h-3.5" />
                       {tenant.employeeCount} Employees Enrolled
+                    </div>
+                    <div className="flex gap-2">
+                      <button 
+                        onClick={() => toggleStatusMutation.mutate({ id: tenant.id, status: tenant.status === "ACTIVE" ? "BLOCKED" : "ACTIVE" })}
+                        className={`p-1.5 rounded-lg border transition-colors ${tenant.status === 'ACTIVE' ? 'text-amber-600 border-amber-200 bg-amber-50 hover:bg-amber-100' : 'text-emerald-600 border-emerald-200 bg-emerald-50 hover:bg-emerald-100'}`}
+                        title={tenant.status === "ACTIVE" ? "Block Company" : "Unblock Company"}
+                      >
+                        {tenant.status === "ACTIVE" ? <Ban className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
+                      </button>
+                      <button 
+                        onClick={() => {
+                          if (window.confirm("Are you sure you want to permanently delete this company?")) {
+                            deleteCompanyMutation.mutate(tenant.id);
+                          }
+                        }}
+                        className="p-1.5 rounded-lg text-rose-600 border border-rose-200 bg-rose-50 hover:bg-rose-100 transition-colors"
+                        title="Delete Company"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
                 </div>
