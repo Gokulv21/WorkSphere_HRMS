@@ -17,16 +17,7 @@ jobs:
       - name: Install dependencies
         working-directory: frontend
         run: npm ci
-      - name: Prepare environment
-        working-directory: frontend
-        run: |
-          echo 'DATABASE_URL="file:./dev.db"' >> .env
-          echo 'JWT_SECRET="ci-test-secret"' >> .env
-          echo 'SUPER_ADMIN_EMAIL="admin@example.com"' >> .env
-          echo 'SUPER_ADMIN_PASSWORD="ChangeMe123!"' >> .env
-      - name: Generate Prisma client
-        working-directory: frontend
-        run: npx prisma generate
       - name: Build frontend
         working-directory: frontend
         run: npm run build
+
