@@ -1,0 +1,327 @@
+[
+  {
+    "id": "tenants_col_id",
+    "name": "tenants",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "legalName", "type": "text", "required": false },
+      { "name": "displayName", "type": "text", "required": false },
+      { "name": "slug", "type": "text", "required": false },
+      { "name": "planCode", "type": "text", "required": false },
+      { "name": "status", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "employees_col_id",
+    "name": "employees",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "tenantId", "type": "text", "required": false },
+      { "name": "employeeNumber", "type": "text", "required": false },
+      { "name": "firstName", "type": "text", "required": false },
+      { "name": "lastName", "type": "text", "required": false },
+      { "name": "workEmail", "type": "text", "required": false },
+      { "name": "department", "type": "text", "required": false },
+      { "name": "jobTitle", "type": "text", "required": false },
+      { "name": "joiningDate", "type": "text", "required": false },
+      { "name": "status", "type": "text", "required": false },
+      { "name": "userId", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "attendance_records_col",
+    "name": "attendance_records",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "tenantId", "type": "text", "required": false },
+      { "name": "employeeId", "type": "text", "required": false },
+      { "name": "date", "type": "text", "required": false },
+      { "name": "checkIn", "type": "text", "required": false },
+      { "name": "checkOut", "type": "text", "required": false },
+      { "name": "status", "type": "text", "required": false },
+      { "name": "workHours", "type": "number", "required": false },
+      { "name": "idleHours", "type": "number", "required": false },
+      { "name": "locationIp", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "leave_types_col",
+    "name": "leave_types",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "tenantId", "type": "text", "required": false },
+      { "name": "code", "type": "text", "required": false },
+      { "name": "name", "type": "text", "required": false },
+      { "name": "description", "type": "text", "required": false },
+      { "name": "daysAllowed", "type": "number", "required": false },
+      { "name": "carryForward", "type": "bool", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "leave_balances_col",
+    "name": "leave_balances",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "tenantId", "type": "text", "required": false },
+      { "name": "employeeId", "type": "text", "required": false },
+      { "name": "leaveTypeId", "type": "text", "required": false },
+      { "name": "year", "type": "number", "required": false },
+      { "name": "totalAllocated", "type": "number", "required": false },
+      { "name": "used", "type": "number", "required": false },
+      { "name": "pendingApproval", "type": "number", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "leave_requests_col",
+    "name": "leave_requests",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "tenantId", "type": "text", "required": false },
+      { "name": "employeeId", "type": "text", "required": false },
+      { "name": "leaveTypeId", "type": "text", "required": false },
+      { "name": "startDate", "type": "text", "required": false },
+      { "name": "endDate", "type": "text", "required": false },
+      { "name": "daysRequested", "type": "number", "required": false },
+      { "name": "reason", "type": "text", "required": false },
+      { "name": "status", "type": "text", "required": false },
+      { "name": "approvedBy", "type": "text", "required": false },
+      { "name": "managerRemarks", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "compensations_col",
+    "name": "compensations",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "employeeId", "type": "text", "required": false },
+      { "name": "baseSalary", "type": "number", "required": false },
+      { "name": "currency", "type": "text", "required": false },
+      { "name": "effectiveDate", "type": "text", "required": false },
+      { "name": "endDate", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "incentives_col",
+    "name": "incentives",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "employeeId", "type": "text", "required": false },
+      { "name": "amount", "type": "number", "required": false },
+      { "name": "currency", "type": "text", "required": false },
+      { "name": "reason", "type": "text", "required": false },
+      { "name": "awardedDate", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "gift_cards_col",
+    "name": "gift_cards",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "employeeId", "type": "text", "required": false },
+      { "name": "provider", "type": "text", "required": false },
+      { "name": "amount", "type": "number", "required": false },
+      { "name": "currency", "type": "text", "required": false },
+      { "name": "issuedDate", "type": "text", "required": false },
+      { "name": "code", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "performance_reviews_col",
+    "name": "performance_reviews",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "employeeId", "type": "text", "required": false },
+      { "name": "reviewerId", "type": "text", "required": false },
+      { "name": "reviewPeriod", "type": "text", "required": false },
+      { "name": "rating", "type": "number", "required": false },
+      { "name": "comments", "type": "text", "required": false },
+      { "name": "reviewDate", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "job_postings_col",
+    "name": "job_postings",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "tenantId", "type": "text", "required": false },
+      { "name": "title", "type": "text", "required": false },
+      { "name": "description", "type": "text", "required": false },
+      { "name": "department", "type": "text", "required": false },
+      { "name": "location", "type": "text", "required": false },
+      { "name": "type", "type": "text", "required": false },
+      { "name": "status", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "candidates_col",
+    "name": "candidates",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "tenantId", "type": "text", "required": false },
+      { "name": "firstName", "type": "text", "required": false },
+      { "name": "lastName", "type": "text", "required": false },
+      { "name": "email", "type": "text", "required": false },
+      { "name": "phone", "type": "text", "required": false },
+      { "name": "resumeUrl", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "applications_col",
+    "name": "applications",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "jobPostingId", "type": "text", "required": false },
+      { "name": "candidateId", "type": "text", "required": false },
+      { "name": "status", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "claims_col",
+    "name": "claims",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "tenantId", "type": "text", "required": false },
+      { "name": "employeeId", "type": "text", "required": false },
+      { "name": "title", "type": "text", "required": false },
+      { "name": "description", "type": "text", "required": false },
+      { "name": "totalAmount", "type": "number", "required": false },
+      { "name": "currency", "type": "text", "required": false },
+      { "name": "status", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "tickets_col",
+    "name": "tickets",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "tenantId", "type": "text", "required": false },
+      { "name": "requesterId", "type": "text", "required": false },
+      { "name": "assigneeId", "type": "text", "required": false },
+      { "name": "subject", "type": "text", "required": false },
+      { "name": "category", "type": "text", "required": false },
+      { "name": "priority", "type": "text", "required": false },
+      { "name": "status", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "ticket_messages_col",
+    "name": "ticket_messages",
+    "type": "base",
+    "system": false,
+    "schema": [
+      { "name": "ticketId", "type": "text", "required": false },
+      { "name": "senderId", "type": "text", "required": false },
+      { "name": "content", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "id": "users_system_collection",
+    "name": "users",
+    "type": "auth",
+    "system": false,
+    "schema": [
+      { "name": "role", "type": "text", "required": false },
+      { "name": "tenantId", "type": "text", "required": false }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  }
+]
