@@ -2,117 +2,28 @@
 import { verifySession } from "./auth";
 
 const SEED_DATA = {
-  tenants: [
-    {
-      id: "tenant-1",
-      legalName: "Acme Corporation",
-      displayName: "Acme Corp",
-      slug: "acme",
-      planCode: "ENTERPRISE",
-      status: "ACTIVE",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    }
-  ],
+  tenants: [],
   users: [
     {
       id: "super-admin-id",
       email: "superadmin@worksphere.com",
-      password: "super",
+      password: "super", // Hardcoded Super Admin Credential
       role: "SUPER_ADMIN",
       tenantId: null,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-    },
-    {
-      id: "owner-id",
-      email: "owner@acme.com",
-      password: "owner",
-      role: "COMPANY_OWNER",
-      tenantId: "tenant-1",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: "hr-id",
-      email: "hr@acme.com",
-      password: "hr",
-      role: "HR_ADMIN",
-      tenantId: "tenant-1",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: "dev-id",
-      email: "dev@acme.com",
-      password: "dev",
-      role: "STANDARD_EMPLOYEE",
-      tenantId: "tenant-1",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     }
   ],
-  employees: [
-    {
-      id: "employee-owner-profile-id",
-      tenantId: "tenant-1",
-      employeeNumber: "EMP-001",
-      firstName: "Company",
-      lastName: "Owner",
-      workEmail: "owner@acme.com",
-      department: "Management",
-      jobTitle: "Founder & CEO",
-      joiningDate: new Date().toISOString(),
-      status: "ACTIVE",
-      userId: "owner-id",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: "employee-hr-profile-id",
-      tenantId: "tenant-1",
-      employeeNumber: "EMP-002",
-      firstName: "Human",
-      lastName: "Resources",
-      workEmail: "hr@acme.com",
-      department: "HR",
-      jobTitle: "HR Manager",
-      joiningDate: new Date().toISOString(),
-      status: "ACTIVE",
-      userId: "hr-id",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: "employee-dev-profile-id",
-      tenantId: "tenant-1",
-      employeeNumber: "EMP-003",
-      firstName: "Software",
-      lastName: "Developer",
-      workEmail: "dev@acme.com",
-      department: "Engineering",
-      jobTitle: "Senior Developer",
-      joiningDate: new Date().toISOString(),
-      status: "ACTIVE",
-      userId: "dev-id",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    }
-  ],
+  employees: [],
   attendance_records: [],
-  leave_types: [
-    { id: "lt-1", tenantId: "tenant-1", code: "AL", name: "Annual Leave", daysAllowed: 18, carryForward: true },
-    { id: "lt-2", tenantId: "tenant-1", code: "SL", name: "Sick Leave", daysAllowed: 12, carryForward: false }
-  ],
+  leave_types: [],
   leave_balances: [],
   leave_requests: [],
   claims: [],
   claim_items: [],
   tickets: [],
   ticket_messages: [],
-  compensations: [
-    { id: "comp-1", employeeId: "employee-dev-profile-id", baseSalary: 120000, currency: "USD", effectiveDate: new Date().toISOString() }
-  ],
+  compensations: [],
   incentives: [],
   gift_cards: [],
   performance_reviews: [],
@@ -123,8 +34,8 @@ const SEED_DATA = {
   audit_logs: []
 };
 
-// Use a new prefix v2 to force a clean database reset for the user
-const DB_PREFIX = "worksphere_db_v2_";
+// Use a new prefix v3 to force a clean database reset for the user
+const DB_PREFIX = "worksphere_db_v3_";
 
 // Initialize localStorage if empty
 Object.entries(SEED_DATA).forEach(([table, data]) => {

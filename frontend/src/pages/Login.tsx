@@ -18,7 +18,7 @@ export default function Login() {
     setPending(true);
 
     try {
-      const { error } = await signIn(email, password);
+      const { error } = await signIn(email, password, loginType);
       if (error) {
         setErrorMsg(error.message || "Invalid credentials.");
       } else {

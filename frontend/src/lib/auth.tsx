@@ -13,7 +13,7 @@ interface AuthContextType {
   role: string | null;
   tenantId: string | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signIn: (email: string, password: string, loginType: "ADMIN" | "USER") => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   refresh: () => Promise<void>;
 }
@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email: string, password: string, loginType: "ADMIN" | "USER") => {
     setLoading(true);
     const { data, error } = await activeSupabase.auth.signInWithPassword({ email, password });
     if (error) {
@@ -77,8 +77,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { error };
     }
     if (data?.user) {
+      const role = data.user.user_metadata?.role || "STANDARD_EMPLOYEE";
+      
+      // Strict Validation
+      if ((role === "SUPER_ADMIN" || role === "COMPANY_OWNER" || role === "HR_ADMIN") && loginType === "USER") {
+        await activeSupabase.auth.signOut();
+        setLoading(false);
+        return { error: new Error("Administrators must sign in through the Admin Portal.") };
+      }
+      
+      if ((role === "STANDARD_EMPLOYEE" || role === "MANAGER") && loginType === "ADMIN") {
+        await activeSupabase.auth.signOut();
+        setLoading(false);
+        return { error: new Error("Standard employees must use the User Portal.") };
+      }
+
       setUser(data.user);
-      setRole(data.user.user_metadata?.role || "STANDARD_EMPLOYEE");
+      setRole(role);
       setTenantId(data.user.user_metadata?.tenant_id || null);
     }
     setLoading(false);
