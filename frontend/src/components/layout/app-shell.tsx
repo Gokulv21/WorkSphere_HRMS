@@ -48,7 +48,7 @@ export default function AppShell() {
   const { role, tenantId, signOut } = useAuth();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const canManageUsers = role === "COMPANY_OWNER" || role === "HR_ADMIN";
+  const canManageUsers = role === "COMPANY_OWNER";
 
   // Trigger daily attendance automated scans
   useEffect(() => {

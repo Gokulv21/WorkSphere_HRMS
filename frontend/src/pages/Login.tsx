@@ -1,11 +1,12 @@
 import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../lib/auth";
-import { Lock, Mail, ArrowRight, KeyRound, ShieldCheck } from "lucide-react";
+import { Mail, ArrowRight, KeyRound, ShieldCheck, Users } from "lucide-react";
 
 export default function Login() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
+  const [loginType, setLoginType] = useState<"ADMIN" | "USER">("USER");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
@@ -24,10 +25,14 @@ export default function Login() {
         const sessionStr = localStorage.getItem("worksphere_session");
         if (sessionStr) {
           const session = JSON.parse(sessionStr);
-          if (session?.user?.user_metadata?.role === "SUPER_ADMIN") {
+          const role = session?.user?.user_metadata?.role;
+          
+          if (role === "SUPER_ADMIN") {
             navigate("/super-admin");
+          } else if (role === "COMPANY_OWNER" || role === "HR_ADMIN") {
+            navigate("/admin");
           } else {
-            navigate("/");
+            navigate("/user");
           }
         }
       }
@@ -45,15 +50,41 @@ export default function Login() {
       <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-violet-500/10 dark:bg-violet-600/20 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-md bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl dark:shadow-2xl transition-all duration-300">
+        
+        {/* Toggle Admin / User */}
+        <div className="flex bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl mb-8 border border-slate-200 dark:border-slate-800">
+          <button
+            type="button"
+            onClick={() => setLoginType("USER")}
+            className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+              loginType === "USER"
+                ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-sm"
+                : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+            }`}
+          >
+            <Users className="w-4 h-4" /> User Sign In
+          </button>
+          <button
+            type="button"
+            onClick={() => setLoginType("ADMIN")}
+            className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+              loginType === "ADMIN"
+                ? "bg-white dark:bg-slate-900 text-rose-600 dark:text-rose-400 shadow-sm"
+                : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+            }`}
+          >
+            <ShieldCheck className="w-4 h-4" /> Admin Sign In
+          </button>
+        </div>
+
         <div className="text-center mb-8">
-          <div className="mx-auto w-14 h-14 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl flex items-center justify-center mb-5 shadow-lg shadow-indigo-500/30">
-            <ShieldCheck className="w-8 h-8 text-white" />
-          </div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-1">
-            WorkSphere Portal
+            {loginType === "ADMIN" ? "Admin Portal" : "Employee Portal"}
           </h1>
           <p className="text-slate-500 dark:text-slate-400 text-sm">
-            Sign in to access your corporate HR dashboard
+            {loginType === "ADMIN" 
+              ? "Sign in to manage HR and operations" 
+              : "Sign in to mark attendance and view payroll"}
           </p>
         </div>
 
@@ -105,7 +136,11 @@ export default function Login() {
           <button
             type="submit"
             disabled={pending}
-            className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/30 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed text-sm mt-6"
+            className={`w-full flex items-center justify-center gap-2 text-white py-3.5 rounded-xl font-bold transition-all shadow-lg hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed text-sm mt-6 ${
+              loginType === "ADMIN" 
+                ? "bg-rose-600 hover:bg-rose-700 shadow-rose-600/20 hover:shadow-rose-600/30"
+                : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/20 hover:shadow-indigo-600/30"
+            }`}
           >
             {pending ? "Authenticating..." : "Sign In to Workspace"}
             {!pending && <ArrowRight className="w-4 h-4" />}

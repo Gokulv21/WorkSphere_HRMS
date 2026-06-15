@@ -18,8 +18,14 @@ import Payroll from "./pages/Payroll";
 import Recruitment from "./pages/Recruitment";
 import Helpdesk from "./pages/Helpdesk";
 
-// Layout
+// User Portal Pages
+import UserDashboard from "./pages/user/UserDashboard";
+import UserLeaves from "./pages/user/UserLeaves";
+import UserPayroll from "./pages/user/UserPayroll";
+
+// Layouts
 import AppShell from "./components/layout/app-shell";
+import UserAppShell from "./components/layout/user-app-shell";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,7 +53,6 @@ function ProtectedRoute({ children, allowedRoles }: { children: ReactNode; allow
   }
 
   if (role === "SUPER_ADMIN") {
-    // Super admin can only visit /super-admin
     return <Navigate to="/super-admin" replace />;
   }
 
@@ -56,6 +61,23 @@ function ProtectedRoute({ children, allowedRoles }: { children: ReactNode; allow
   }
 
   return <>{children}</>;
+}
+
+function RoleBasedRedirect() {
+  const { user, role, loading } = useAuth();
+  
+  if (loading) return null;
+  if (!user) return <Navigate to="/login" replace />;
+
+  if (role === "SUPER_ADMIN") {
+    return <Navigate to="/super-admin" replace />;
+  }
+
+  if (role === "COMPANY_OWNER" || role === "HR_ADMIN") {
+    return <Navigate to="/admin" replace />;
+  }
+
+  return <Navigate to="/user" replace />;
 }
 
 function SuperAdminRoute({ children }: { children: ReactNode }) {
@@ -88,10 +110,9 @@ function PublicRoute({ children }: { children: ReactNode }) {
   }
 
   if (user) {
-    if (role === "SUPER_ADMIN") {
-      return <Navigate to="/super-admin" replace />;
-    }
-    return <Navigate to="/" replace />;
+    if (role === "SUPER_ADMIN") return <Navigate to="/super-admin" replace />;
+    if (role === "COMPANY_OWNER" || role === "HR_ADMIN") return <Navigate to="/admin" replace />;
+    return <Navigate to="/user" replace />;
   }
 
   return <>{children}</>;
@@ -107,6 +128,7 @@ export default function App() {
       document.documentElement.classList.remove("dark");
     }
   }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <HashRouter>
@@ -115,14 +137,17 @@ export default function App() {
             {/* Public Access */}
             <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
 
+            {/* Smart Root Redirect */}
+            <Route path="/" element={<RoleBasedRedirect />} />
+
             {/* Super Admin Access */}
             <Route path="/super-admin" element={<SuperAdminRoute><SuperAdmin /></SuperAdminRoute>} />
 
-            {/* Application Console */}
+            {/* Admin Application Console (Owner / HR) */}
             <Route
-              path="/"
+              path="/admin"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute allowedRoles={["COMPANY_OWNER", "HR_ADMIN"]}>
                   <AppShell />
                 </ProtectedRoute>
               }
@@ -134,25 +159,32 @@ export default function App() {
               <Route path="helpdesk" element={<Helpdesk />} />
               <Route path="leaves" element={<Leaves />} />
               
-              {/* Access-Controlled Routes */}
               <Route
                 path="users"
                 element={
-                  <ProtectedRoute allowedRoles={["COMPANY_OWNER", "HR_ADMIN"]}>
+                  <ProtectedRoute allowedRoles={["COMPANY_OWNER"]}>
                     <UserManagement />
                   </ProtectedRoute>
                 }
               />
-              <Route
-                path="payroll"
-                element={
-                  <ProtectedRoute allowedRoles={["COMPANY_OWNER", "HR_ADMIN"]}>
-                    <Payroll />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="payroll" element={<Payroll />} />
               <Route path="performance" element={<Performance />} />
               <Route path="recruitment" element={<Recruitment />} />
+            </Route>
+
+            {/* User Application Console (Standard Employee / Manager) */}
+            <Route
+              path="/user"
+              element={
+                <ProtectedRoute allowedRoles={["STANDARD_EMPLOYEE", "MANAGER"]}>
+                  <UserAppShell />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<UserDashboard />} />
+              <Route path="leaves" element={<UserLeaves />} />
+              <Route path="payroll" element={<UserPayroll />} />
+              <Route path="helpdesk" element={<Helpdesk />} />
             </Route>
 
             {/* Fallback */}
