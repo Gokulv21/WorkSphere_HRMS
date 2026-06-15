@@ -172,6 +172,10 @@ export default function SuperAdmin() {
   // Delete Mutation
   const deleteCompanyMutation = useMutation({
     mutationFn: async (id: string) => {
+      // Perform cascade delete manually since mock DB doesn't have FK constraints
+      await activeSupabase.from("users").delete().eq("tenant_id", id);
+      await activeSupabase.from("employees").delete().eq("tenant_id", id);
+      
       const { error } = await activeSupabase.from("tenants").delete().eq("id", id);
       if (error) throw error;
     },
