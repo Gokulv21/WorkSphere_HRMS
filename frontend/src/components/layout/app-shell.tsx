@@ -116,51 +116,51 @@ export default function AppShell() {
           </div>
 
           <nav className="flex-1 overflow-y-auto p-4 space-y-1">
-            <NavLink to="/" end className={navLinkClass} onClick={closeSidebar}>
+            <NavLink to="/admin" end className={navLinkClass} onClick={closeSidebar}>
               <LayoutDashboard className="w-5 h-5 shrink-0" />
               <span>Dashboard</span>
             </NavLink>
 
             {canManageUsers && (
-              <NavLink to="/users" className={navLinkClass} onClick={closeSidebar}>
+              <NavLink to="/admin/users" className={navLinkClass} onClick={closeSidebar}>
                 <Users className="w-5 h-5 shrink-0" />
                 <span>User Management</span>
               </NavLink>
             )}
 
-            <NavLink to="/attendance" className={navLinkClass} onClick={closeSidebar}>
+            <NavLink to="/admin/attendance" className={navLinkClass} onClick={closeSidebar}>
               <CalendarCheck className="w-5 h-5 shrink-0" />
               <span>Attendance</span>
             </NavLink>
 
-            <NavLink to="/leaves" className={navLinkClass} onClick={closeSidebar}>
+            <NavLink to="/admin/leaves" className={navLinkClass} onClick={closeSidebar}>
               <Umbrella className="w-5 h-5 shrink-0" />
               <span>Leave Management</span>
             </NavLink>
 
-            <NavLink to="/performance" className={navLinkClass} onClick={closeSidebar}>
+            <NavLink to="/admin/performance" className={navLinkClass} onClick={closeSidebar}>
               <Star className="w-5 h-5 shrink-0" />
               <span>Performance</span>
             </NavLink>
 
             {canManageUsers && (
-              <NavLink to="/payroll" className={navLinkClass} onClick={closeSidebar}>
+              <NavLink to="/admin/payroll" className={navLinkClass} onClick={closeSidebar}>
                 <IndianRupee className="w-5 h-5 shrink-0" />
                 <span>Payroll Info</span>
               </NavLink>
             )}
 
-            <NavLink to="/claims" className={navLinkClass} onClick={closeSidebar}>
+            <NavLink to="/admin/claims" className={navLinkClass} onClick={closeSidebar}>
               <FileText className="w-5 h-5 shrink-0" />
               <span>Claims</span>
             </NavLink>
 
-            <NavLink to="/recruitment" className={navLinkClass} onClick={closeSidebar}>
+            <NavLink to="/admin/recruitment" className={navLinkClass} onClick={closeSidebar}>
               <Briefcase className="w-5 h-5 shrink-0" />
               <span>Recruitment</span>
             </NavLink>
 
-            <NavLink to="/helpdesk" className={navLinkClass} onClick={closeSidebar}>
+            <NavLink to="/admin/helpdesk" className={navLinkClass} onClick={closeSidebar}>
               <HelpCircle className="w-5 h-5 shrink-0" />
               <span>Helpdesk</span>
             </NavLink>
